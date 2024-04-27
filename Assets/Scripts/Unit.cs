@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-
 // Base class for all Unit. It will handle movement order given through the UserControl script.
 // It require a NavMeshAgent to navigate the scene.
 [RequireComponent(typeof(NavMeshAgent))]
-public abstract class Unit : MonoBehaviour,
-    UIMainScene.IUIInfoContent
+public abstract class Unit : MonoBehaviour, UIMainScene.IUIInfoContent
 {
     public float Speed = 3;
 
@@ -26,7 +24,10 @@ public abstract class Unit : MonoBehaviour,
 
     private void Start()
     {
-
+        if (MainManager.Instance != null)
+        {
+            SetColor(MainManager.Instance.TeamColor);
+        }
     }
 
     void SetColor(Color c)
@@ -70,10 +71,9 @@ public abstract class Unit : MonoBehaviour,
         m_Agent.isStopped = false;
     }
 
-
     /// <summary>
     /// Override this function to implement what should happen when in range of its target.
-    /// Note that this is called every frame the current target is in range, not only the first time we get in range! 
+    /// Note that this is called every frame the current target is in range, not only the first time we get in range!
     /// </summary>
     protected abstract void BuildingInRange();
 
@@ -90,8 +90,5 @@ public abstract class Unit : MonoBehaviour,
         return "";
     }
 
-    public virtual void GetContent(ref List<Building.InventoryEntry> content)
-    {
-        
-    }
+    public virtual void GetContent(ref List<Building.InventoryEntry> content) { }
 }
